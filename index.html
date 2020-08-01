@@ -136,7 +136,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section">标签<span class="badge">4</span></a>
+    <a href="/tags/" rel="section">标签<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -146,7 +146,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section">归档<span class="badge">5</span></a>
+    <a href="/archives/" rel="section">归档<span class="badge">6</span></a>
 
   </li>
   </ul>
@@ -193,12 +193,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -230,6 +230,96 @@
 
         <div class="content index posts-expand">
           
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/01/systemd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/37071903.png">
+      <meta itemprop="name" content="thuadev">
+      <meta itemprop="description" content="世人慌慌张张，不过图碎银几两，偏这碎银几两，能解万种惆怅！可这碎银几两，断了儿时梦想，让少年染上沧桑…">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="thuadev's code world">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/01/systemd/" class="post-title-link" itemprop="url">systemd</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-01 12:50:54 / 修改时间：13:24:41" itemprop="dateCreated datePublished" datetime="2020-08-01T12:50:54+08:00">2020-08-01</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Systemctl是一个systemd工具，主要负责控制systemd系统和服务管理器。</p>
+<p>Systemd是一个系统管理守护进程、工具和库的集合，用于取代System V初始进程。Systemd的功能是用于集中管理和配置类UNIX系统。</p>
+<p>查看systemd相关进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ps ax|grep systemd</span><br><span class="line">    1 ?        Ss   171:39 &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;systemd --switched-root --system --deserialize 21</span><br><span class="line">  494 ?        Ss    49:22 &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;systemd-journald</span><br><span class="line">  523 ?        Ss     0:00 &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;systemd-udevd</span><br><span class="line">  908 ?        Ss    62:07 &#x2F;usr&#x2F;bin&#x2F;dbus-daemon --system --address&#x3D;systemd: --nofork --nopidfile --systemd-activation</span><br><span class="line">  930 ?        Ss    30:59 &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;systemd-logind</span><br></pre></td></tr></table></figure>
+
+<p>pid 1的进程，是系统启动后的第一个进程，也就是init进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 列出正在运行的 Unit</span><br><span class="line">$ systemctl list-units</span><br><span class="line"></span><br><span class="line"># 列出所有Unit，包括没有找到配置文件的或者启动失败的</span><br><span class="line">$ systemctl list-units --all</span><br><span class="line"></span><br><span class="line"># 列出所有没有运行的 Unit</span><br><span class="line">$ systemctl list-units --all --state&#x3D;inactive</span><br><span class="line"></span><br><span class="line"># 列出所有加载失败的 Unit</span><br><span class="line">$ systemctl list-units --failed</span><br><span class="line"></span><br><span class="line"># 列出所有正在运行的、类型为 service 的 Unit</span><br><span class="line">$ systemctl list-units --type&#x3D;service</span><br><span class="line"></span><br><span class="line"># 查看 Unit 配置文件的内容</span><br><span class="line">$ systemctl cat docker.service</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="systemd-unit"><a href="#systemd-unit" class="headerlink" title="systemd unit"></a>systemd unit</h3><p>Systemd 可以管理所有系统资源，不同的资源统称为 Unit（单位）。</p>
+<p><a href="https://cloud.tencent.com/developer/article/1516125" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1516125</a></p>
+<h5 id="Systemd-支持的-12-种-Unit-文件类型"><a href="#Systemd-支持的-12-种-Unit-文件类型" class="headerlink" title="Systemd 支持的 12 种 Unit 文件类型"></a>Systemd 支持的 12 种 Unit 文件类型</h5><ul>
+<li>.automount：用于控制自动挂载文件系统，相当于 SysV-init 的 autofs 服务</li>
+<li>.device：对于 /dev 目录下的设备，主要用于定义设备之间的依赖关系</li>
+<li>.mount：定义系统结构层次中的一个挂载点，可以替代过去的 /etc/fstab 配置文件</li>
+<li>.path：用于监控指定目录或文件的变化，并触发其它 Unit 运行</li>
+<li>.scope：这种 Unit 文件不是用户创建的，而是 Systemd 运行时产生的，描述一些系统服务的分组信息</li>
+<li>.service：封装守护进程的启动、停止、重启和重载操作，是最常见的一种 Unit 文件</li>
+<li>.slice：用于表示一个 CGroup 的树，通常用户不会自己创建这样的 Unit 文件</li>
+<li>.snapshot：用于表示一个由 systemctl snapshot 命令创建的 Systemd Units 运行状态快照</li>
+<li>.socket：监控来自于系统或网络的数据消息，用于实现基于数据自动触发服务启动</li>
+<li>.swap：定义一个用户做虚拟内存的交换分区</li>
+<li>.target：用于对 Unit 文件进行逻辑分组，引导其它 Unit 的执行。它替代了 SysV-init 运行级别的作用，并提供更灵活的基于特定设备事件的启动方式</li>
+<li>.timer：用于配置在特定时间触发的任务，替代了 Crontab 的功能</li>
+</ul>
+<h5 id="Systemd-目录"><a href="#Systemd-目录" class="headerlink" title="Systemd 目录"></a>Systemd 目录</h5><p>Unit 文件按照 Systemd 约定，应该被放置指定的三个系统目录之一中。这三个目录是有优先级的，如下所示，越靠上的优先级越高。因此，在三个目录中有同名文件的时候，只有优先级最高的目录里的那个文件会被使用。</p>
+<ul>
+<li>/etc/systemd/system：系统或用户自定义的配置文件</li>
+<li>/run/systemd/system：软件运行时生成的配置文件</li>
+<li>/usr/lib/systemd/system：系统或第三方软件安装时添加的配置文件。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
