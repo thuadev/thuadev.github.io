@@ -136,7 +136,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section">标签<span class="badge">5</span></a>
+    <a href="/tags/" rel="section">标签<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -146,7 +146,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section">归档<span class="badge">7</span></a>
+    <a href="/archives/" rel="section">归档<span class="badge">8</span></a>
 
   </li>
   </ul>
@@ -193,12 +193,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -230,6 +230,108 @@
 
         <div class="content index posts-expand">
           
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/25/centos-%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E9%85%8D%E7%BD%AE-%E6%90%AD%E5%BB%BAgit%E6%9C%8D%E5%8A%A1%E7%AB%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/37071903.png">
+      <meta itemprop="name" content="thuadev">
+      <meta itemprop="description" content="世人慌慌张张，不过图碎银几两，偏这碎银几两，能解万种惆怅！可这碎银几两，断了儿时梦想，让少年染上沧桑…">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="thuadev's code world">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/25/centos-%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95%E9%85%8D%E7%BD%AE-%E6%90%AD%E5%BB%BAgit%E6%9C%8D%E5%8A%A1%E7%AB%AF/" class="post-title-link" itemprop="url">centos 免密登录配置&搭建git服务端</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-25 22:39:24 / 修改时间：22:40:23" itemprop="dateCreated datePublished" datetime="2020-08-25T22:39:24+08:00">2020-08-25</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>前提：服务端和客户端均已安装git程序</p>
+<ol>
+<li>创建git用户</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">新增用户</span></span><br><span class="line">adduser git</span><br><span class="line"><span class="meta">#</span><span class="bash">设置密码</span></span><br><span class="line">passwd git</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>修改ssh设置</li>
+</ol>
+<p>启用rsa公钥认证</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/ssh/sshd_config</span><br><span class="line"><span class="meta">#</span><span class="bash"> The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> but this is overridden so installations will only check .ssh/authorized_keys</span></span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">AuthorizedKeysFile  .ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>上传客户端公钥到服务端</li>
+</ol>
+<p>客户端使用ssh-keygen工具生成RSA密钥对</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">连续三次回车即可</span></span><br><span class="line">ssh-keygen -t RSA -C "user@aa.com"</span><br><span class="line"><span class="meta">#</span><span class="bash">查看生成的rsa密钥</span></span><br><span class="line">cat .ssh/id_rsa.pub</span><br><span class="line"><span class="meta">#</span><span class="bash">上传公钥</span></span><br><span class="line">scp .ssh/id_rsa.pub git@server.host:tmp/id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>服务端添加公钥</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">切换git用户</span></span><br><span class="line">su git</span><br><span class="line"><span class="meta">#</span><span class="bash">新建.ssh目录和认证文件</span></span><br><span class="line">mkdir -p /home/git/.ssh/authorized_keys</span><br><span class="line"><span class="meta">#</span><span class="bash">添加公钥</span></span><br><span class="line">cat tmp/id_rsa.pub &gt;&gt; .ssh/authorized_keys</span><br><span class="line"><span class="meta">#</span><span class="bash">修改文件权限</span></span><br><span class="line">chmod 600 .ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>修改git用户的权限，禁止客户端shell登录</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">创建git-shell-commands目录</span></span><br><span class="line">su git </span><br><span class="line">mkdir /home/git/git-shell-commands</span><br><span class="line"><span class="meta">#</span><span class="bash">root或sudo用户修改/etc/passwd如下内容</span></span><br><span class="line">sudo vi /etc/passwd</span><br><span class="line"><span class="meta">#</span><span class="bash">git:x:1000:1000::/home/git:/bin/bash</span></span><br><span class="line">git:x:1000:1000::/home/git:/bin/git-shell</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>创建git仓库</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">创建空文件夹，repos/blog.git</span></span><br><span class="line">su git</span><br><span class="line">mkdir -p /home/git/repos/blog.git</span><br><span class="line">cd repos/blog.git</span><br><span class="line">git init --bare</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>客户端免密登录测试</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh git@server.host</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>从服务端克隆git仓库</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone git@server.host:repos/blog.git</span><br><span class="line">Cloning into 'blog'...</span><br><span class="line">warning: You appear to have cloned an empty repository.</span><br></pre></td></tr></table></figure>
+
+<h4 id="END"><a href="#END" class="headerlink" title="END"></a>END</h4><p>可以快乐的提交代码到自己的服务器上了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
